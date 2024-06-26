@@ -31,5 +31,5 @@ nmblookup -A $IPAdress
 ##########
 #Get user's ACL for group
 (Get-ACL "AD:$((Get-ADUser UserName).distinguishedname)").access
-
-
+#Get-ACL for users in group
+(Get-Acl -Path 'AD:\CN=Domain Admins,CN=Users,DC=us,DC=techcorp,DC=local').Access | ?{$_.IdentityReference -match 'studentuser1'}
