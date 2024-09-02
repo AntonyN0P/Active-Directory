@@ -33,8 +33,29 @@ nmblookup -A $IPAdress
 
 (Get-ACL "AD:$((Get-Group GroupName).distinguishedname)").access
 
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match 'GROUPNAME'}
+
 #Get-ACL for users in group
 (Get-Acl -Path 'AD:\CN=Domain Admins,CN=Users,DC=us,DC=techcorp,DC=local').Access | ?{$_.IdentityReference -match 'studentuser1'}
+
+#Get all groups for specific user
+
+function Get-ADPrincipalGroupMembershipRecursive ($SamAccountName) {
+$groups = @(Get-ADPrincipalGroupMembership -Identity $SamAccountName | select -ExpandProperty distinguishedname)
+   $groups
+   if ($groups.count -gt 0)
+   {
+        foreach ($group in $groups)
+        {
+Get-ADPrincipalGroupMembershipRecursive $group }
+}
+}
+
+Get-ADPrincipalGroupMembershipRecursive "USERNAME"
+
+
+
+
 
 
 
