@@ -28,6 +28,18 @@ nmblookup -A $IPAdress
 
 # Domain Recon
 
+## Forest and Trusts
+
+### Get Domain Forest
+(Get-ADForest).Domains
+
+### Get Domain Trusts
+
+Get-DomainTrust \ Get-AdTrust
+
+
+
+
 ## Enumerate Restricted group
 
 Get-DomainGpoLocalGroup
