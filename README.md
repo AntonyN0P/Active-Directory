@@ -26,19 +26,49 @@ nbtscan -r $SUBNET/$MASK
 nmblookup -A $IPAdress
 
 
+## Domain Recon
+
 ##########
 #ACL
 ##########
-#Get user's ACL for group
+
+# Enumerate Restricted group
+
+Get-DomainGpoLocalGroup
+
+# Get AD Group members
+
+Get-DomainGroupMember -Identity $groupname
+
+# Get Domain OU
+
+Get-DomainOU / Get-AdOrganizationUnit 
+
+# Get All computers in OU 
+
+*PowerView
+(Get-DomainOU -Identity $OU).distinguishedname | %{Get-DomainComputer -SearchBase $_} | select name
+
+*AdModule
+Get-ADOrganizationalUnit -Identity 'OU=Students,DC=us,DC=techcorp,DC=local' | %{Get-ADComputer -SearchBase $_ -Filter *} | select name
+
+
+# Get DomainGPO applied to OU
+
+(Get-DomainOU -Identity $OU).gplink
+
+Get-DomainGPO -Identity '{FCE16496-C744-4E46-AC89-2D01D76EAD68}'
+
+# Get user's ACL for group
 
 (Get-ACL "AD:$((Get-Group GroupName).distinguishedname)").access
 
-Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match 'GROUPNAME'}
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match 'GROUPNAME or USERNAME'}
 
-#Get-ACL for users in group
+# Get-ACL for users in group
 (Get-Acl -Path 'AD:\CN=Domain Admins,CN=Users,DC=us,DC=techcorp,DC=local').Access | ?{$_.IdentityReference -match 'studentuser1'}
 
-#Get all groups for specific user
+# Get all groups for specific user
 
 function Get-ADPrincipalGroupMembershipRecursive ($SamAccountName) {
 $groups = @(Get-ADPrincipalGroupMembership -Identity $SamAccountName | select -ExpandProperty distinguishedname)
@@ -53,11 +83,5 @@ Get-ADPrincipalGroupMembershipRecursive $group }
 
 Get-ADPrincipalGroupMembershipRecursive "USERNAME"
 
-
-
-
-
-
-
-#Get LAPS password remotly
+# Get LAPS password remotly
 sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.domain.local -M LAPS 
