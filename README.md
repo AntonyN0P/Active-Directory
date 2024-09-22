@@ -37,6 +37,9 @@ nmblookup -A $IPAdress
 
 Get-DomainTrust \ Get-AdTrust
 
+### Get all trusts in someone forest
+
+Get-ADTrust -Filter 'intraForest -ne $True' -Server (Get-ADForest).Name
 
 
 
