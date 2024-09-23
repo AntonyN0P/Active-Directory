@@ -51,9 +51,14 @@ Get-DomainGpoLocalGroup
 
 Get-DomainGroupMember -Identity $groupname
 
-## Get Domain OU
+### Get Domain OU
 
 Get-DomainOU / Get-AdOrganizationUnit 
+
+### Get list of child OU (subOU)
+
+Get-ADObject -Filter 'objectClass -eq "organizationalUnit"' -SearchBase "distinguishedName of parent OU"
+
 
 ## Get All computers in OU 
 
