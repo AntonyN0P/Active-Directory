@@ -75,6 +75,12 @@ Get-ADOrganizationalUnit -Identity 'OU=Students,DC=us,DC=techcorp,DC=local' | %{
 
 Get-DomainGPO -Identity '{FCE16496-C744-4E46-AC89-2D01D76EAD68}'
 
+or
+
+Get-GPInheritance -Target 'OU=,DC,DC' | select-object -expandproperty InheritedGpoLinks 
+
+
+
 ## Get user's ACL for group
 
 (Get-ACL "AD:$((Get-Group GroupName).distinguishedname)").access
