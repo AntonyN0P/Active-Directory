@@ -85,6 +85,7 @@ Get-GPInheritance -Target 'OU=,DC,DC' | select-object -expandproperty InheritedG
 
 (Get-ACL "AD:$((Get-Group GroupName).distinguishedname)").access
 
+## Find Interesting ACL for user or group. That your user has permission 
 Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match 'GROUPNAME or USERNAME'}
 
 ## Get-ACL for users in group
