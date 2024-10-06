@@ -105,5 +105,10 @@ Get-ADPrincipalGroupMembershipRecursive $group }
 
 Get-ADPrincipalGroupMembershipRecursive "USERNAME"
 
+## Set SPN
+Set-ADUser -Identity Support127User -ServicePrincipalNames @{Add='us/myspn127'} -Verbose
+
 ## Get LAPS password remotly
 sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.domain.local -M LAPS 
+
+
