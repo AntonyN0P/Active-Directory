@@ -117,7 +117,7 @@ Set-ADUser -Identity Support127User -ServicePrincipalNames @{Add='us/myspn127'} 
 
 
 ## Get LAPS password read permissions
--PowerView:
+-PowerView (return group or users who can read LAPS passwords) from IdentityName:
 Get-DomainOU | Get-DomainObjectAcl -ResolveGUIDs | Where-Object {($_.ObjectAceType -like 'ms-Mcs-AdmPwd') -and ($_.ActiveDirectoryRights -match 'ReadProperty')} | ForEach-Object {$_ | Add-Member NoteProperty 'IdentityName' $(Convert-SidToName $_.SecurityIdentifier);$_}
 
 
