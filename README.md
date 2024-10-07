@@ -42,6 +42,11 @@ Get-DomainTrust \ Get-AdTrust
 Get-ADTrust -Filter 'intraForest -ne $True' -Server (Get-ADForest).Name
 
 
+## Find computers (File Servers and Distributed File servers) where a domain admin session is available
+
+Find-DomainUserLocation –Stealth / Find-DomainUserLocation -CheckAccess
+
+
 
 ## Enumerate Restricted group
 
