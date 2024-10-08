@@ -47,6 +47,16 @@ Get-ADTrust -Filter 'intraForest -ne $True' -Server (Get-ADForest).Name
 Find-DomainUserLocation –Stealth / Find-DomainUserLocation -CheckAccess
 
 
+# Domain Delegation
+
+Get-DomainComputer -Unconstraint
+
+Get-DomainComputer -TrustedToAuth
+
+Get-DomainUser -TrustedToAuth
+
+
+
 
 ## Enumerate Restricted group
 
