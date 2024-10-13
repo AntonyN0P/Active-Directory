@@ -105,6 +105,9 @@ Get-GPInheritance -Target 'OU=,DC,DC' | select-object -expandproperty InheritedG
 ## Find Interesting ACL for user or group. That your user has permission 
 Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match 'GROUPNAME or USERNAME'}
 
+**Найти объекты на кого имеет привилегии mgmtadmin например:**
+Find-InterestingDomainAcl -ResolveGUIDs -Server us-dc | ?{$_.IdentityReferenceName -match 'mgmtadmin'}
+
 ## Get-ACL for users in group
 (Get-Acl -Path 'AD:\CN=Domain Admins,CN=Users,DC=us,DC=techcorp,DC=local').Access | ?{$_.IdentityReference -match 'studentuser1'}
 
