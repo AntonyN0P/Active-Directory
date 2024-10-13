@@ -49,13 +49,15 @@ Find-DomainUserLocation –Stealth / Find-DomainUserLocation -CheckAccess
 
 # Domain Delegation
 
+## Unconstraint
 Get-DomainComputer -Unconstraint
 
 Get-DomainComputer -TrustedToAuth
 
 Get-DomainUser -TrustedToAuth
 
-
+## Constraint for user and computer (all objects)
+Get-ADObject -Filter {msDS-AllowedToDelegateTo -ne "$null"} -Properties msDS-AllowedToDelegateTo
 
 
 ## Enumerate Restricted group
