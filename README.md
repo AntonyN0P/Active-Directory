@@ -189,3 +189,6 @@ Add-DomainObjectAcl -TargetIdentity "dc=us,dc=techcorp,dc=local" -PrincipalIdent
 
 ## add dcsync rights with ADmodule
 Set-ADACL -DistinguishedName 'DC=us,DC=techcorp,DC=local' -SamAccountName studentuserx -GUIDRight DCSync -Verbose
+
+
+
